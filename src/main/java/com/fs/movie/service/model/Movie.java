@@ -57,7 +57,7 @@ public class Movie implements Serializable {
 	private Date releaseDate;
 	
 	@OneToMany(mappedBy = "movie", fetch = FetchType.LAZY,
-			cascade = CascadeType.ALL)
+			cascade = CascadeType.REFRESH)
 	private List<Genre> genre;
 	
 	public Movie(String name, Date releaseDate) {

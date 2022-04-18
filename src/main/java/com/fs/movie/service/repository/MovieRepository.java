@@ -13,9 +13,7 @@ import com.fs.movie.service.model.Movie;
 public interface MovieRepository extends JpaRepository<Movie, Long> {
 	
 	
-	 @Query(value = " SELECT * "
-	 		+ "	FROM MOVIES movies "
-	 		+ " WHERE movies.genre IN :favGenre ", 
+	 @Query(value = " select * from movies where movie_id in (select distinct movie_id from  genre where genre_value in (:favGenre))", 
 			 nativeQuery = true)
 	List<Movie> getRecommendedMoviesWithGenre(@Param("favGenre") final List<String> favGenre);
 

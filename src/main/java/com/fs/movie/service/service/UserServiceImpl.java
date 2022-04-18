@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.fs.movie.service.model.Genre;
 import com.fs.movie.service.model.User;
 import com.fs.movie.service.repository.GenreRepository;
 import com.fs.movie.service.repository.UserRepository;
@@ -30,7 +31,14 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public ResponseEntity<List<User>> getAllUsers() {
-		final var users = userRepository.findAll();
+		final List<User> users = userRepository.getAllUsers();
+		
+		if(!CollectionUtils.isEmpty(users)) {
+			for(User user : users) {
+				final List<Genre> favGenre = genreRepository.getAllGenreByUserId(user.getId());
+				user.setFavouriteGenre(favGenre);
+			}
+		}
 		
 		return CollectionUtils.isEmpty(users) ? 
 				new ResponseEntity<>(HttpStatus.NOT_FOUND) :
@@ -71,6 +79,8 @@ public class UserServiceImpl implements UserService {
 	    		eachExistingGenre.setUser(user);
 	    		genreRepository.save(eachExistingGenre);
 	    	});
+	    	
+	    	user.setFavouriteGenre(inputUser.getFavouriteGenre());
 	    	
 //	    	Update user
 	    	userRepository.save(user);

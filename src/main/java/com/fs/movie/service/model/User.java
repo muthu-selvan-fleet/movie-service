@@ -60,7 +60,7 @@ public class User implements Serializable {
 	private String phoneNumber;
 	
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
-			cascade = CascadeType.ALL)
+			cascade = CascadeType.REFRESH)
 	private List<Genre> favouriteGenre;
 	
 	
