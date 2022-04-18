@@ -55,13 +55,21 @@ public class Movie implements Serializable {
 	@NotNull(message = "Release Date is mandatory")
 	@CSVCell(label = "Release Date")
 	private Date releaseDate;
-	
+
+	@Column(name="UPVOTE_COUNT")
+	private long upVoteCount;
+
+	@Column(name="DOWNVOTE_COUNT")
+	private long downVoteCount;
+
 	@OneToMany(mappedBy = "movie", fetch = FetchType.LAZY,
 			cascade = CascadeType.REFRESH)
 	private List<Genre> genre;
 	
-	public Movie(String name, Date releaseDate) {
+	public Movie(String name, Date releaseDate,long upVoteCount, long downVoteCount) {
 		this.name = name;
 		this.releaseDate = releaseDate;
+		this.upVoteCount = upVoteCount;
+		this.downVoteCount = downVoteCount;
 	}
 }

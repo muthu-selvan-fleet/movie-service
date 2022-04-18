@@ -1,8 +1,12 @@
 package com.fs.movie.service.service;
-import java.util.List;
 
-import javax.annotation.PostConstruct;
-
+import com.fs.movie.service.constants.Constants;
+import com.fs.movie.service.model.Genre;
+import com.fs.movie.service.model.Movie;
+import com.fs.movie.service.model.MovieModel;
+import com.fs.movie.service.parser.CSVParser;
+import com.fs.movie.service.repository.GenreRepository;
+import com.fs.movie.service.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
@@ -11,10 +15,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
-import com.fs.movie.service.constants.Constants;
-import com.fs.movie.service.model.Genre;
-import com.fs.movie.service.parser.CSVParser;
-import com.fs.movie.service.repository.GenreRepository;
+import javax.annotation.PostConstruct;
+import java.util.List;
 
 
 @Repository
@@ -39,6 +41,9 @@ public class LoadFiles {
 	
 	@Autowired
 	private ReviewService reviewService;
+
+	@Autowired
+	private MovieRepository movieRepository;
 	
 	@Autowired
 	private Environment env;
@@ -75,6 +80,18 @@ public class LoadFiles {
 			// Process Movies
 			{
 				movieService.deleteAllMovies();
+				Resource resource = resourceLoader.getResource("classpath:"+"assets/csv/MovieModel.csv");
+				List<MovieModel> movieModels = CSVParser.readCSVFile(MovieModel.class, resource.getFile().getAbsolutePath());
+				movieModels.forEach(eachMovieModel -> {
+					final var movie = new Movie(eachMovieModel.getName(),eachMovieModel.getDate(),eachMovieModel.getUpVoteCount(),eachMovieModel.getDownVoteCount());
+					movieRepository.save(movie);
+
+					eachMovieModel.getGenreInList().forEach(eachGenre -> {
+						eachGenre.setMovie(movie);
+						genreRepository.save(eachGenre);
+					});
+
+				});
 				
 				System.out.println("********************** Movie Processed ***********");
 			}

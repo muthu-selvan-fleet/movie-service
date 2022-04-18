@@ -48,7 +48,7 @@ public class MovieServiceImpl implements MovieService {
 	@Override
 	public ResponseEntity<Movie> addMovie(final Movie movie) {
 		try {
-			final var newMovie = new Movie(movie.getName(), movie.getReleaseDate());
+			final var newMovie = new Movie(movie.getName(), movie.getReleaseDate(), movie.getUpVoteCount(), movie.getDownVoteCount());
 			movieRepository.save(newMovie);
 			movie.getGenre().forEach(eachGenre -> {
 				eachGenre.setMovie(newMovie);
