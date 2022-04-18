@@ -31,16 +31,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public ResponseEntity<List<User>> getAllUsers() {
-		final List<User> users = userRepository.getAllUsers();
+		final List<User> users = userRepository.findAll();
 		
-		if(!CollectionUtils.isEmpty(users)) {
-			for(User user : users) {
-				final List<Genre> favGenre = genreRepository.getAllGenreByUserId(user.getId());
-				user.setFavouriteGenre(favGenre);
-			}
-		}
-		
-		return CollectionUtils.isEmpty(users) ? 
+		return CollectionUtils.isEmpty(users) ?
 				new ResponseEntity<>(HttpStatus.NOT_FOUND) :
 					new ResponseEntity<>(users, HttpStatus.OK)
 			;
@@ -67,7 +60,7 @@ public class UserServiceImpl implements UserService {
 		final var userOptional = userRepository.findById(userId);
 	    
 	    if(userOptional.isPresent()) {
-	    	var user = userOptional.get();
+	    	final var user = userOptional.get();
 	    	user.setFirstName(inputUser.getFirstName());
 	    	user.setLastName(inputUser.getLastName());
 	    	user.setEmailId(inputUser.getEmailId());

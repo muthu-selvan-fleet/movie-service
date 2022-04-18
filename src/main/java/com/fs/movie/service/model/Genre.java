@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fs.movie.service.parser.CSVCell;
 
 import lombok.Data;
@@ -50,9 +51,11 @@ public class Genre implements Serializable {
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional = true)
 	@JoinColumn(name = "movie_id", nullable = true)
+	@JsonIgnore
 	private Movie movie;
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional = true)
 	@JoinColumn(name = "user_id", nullable = true)
+	@JsonIgnore
 	private User user;
 }

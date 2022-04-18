@@ -18,7 +18,4 @@ import com.fs.movie.service.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-	@Query(value = "SELECT user_id, email_id, first_name, last_name, phone_number FROM USERS", nativeQuery = true)
-	List<User> getAllUsers();
-
 }
