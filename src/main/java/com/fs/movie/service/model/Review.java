@@ -35,15 +35,15 @@ public class Review implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="REVIEW_ID")
-	private long id;
+	private Long id;
 	
 	@Column(name="MOVIE_ID")
 	@NotNull(message = "Movie Id is mandatory")
-	private long movieId;
+	private Long movieId;
 	
 	@Column(name="USER_ID")
 	@NotNull(message = "User Id is mandatory")
-	private long userId;
+	private Long userId;
 	
 	@Column(name="IS_UPVOTE")
 	private String upvote;

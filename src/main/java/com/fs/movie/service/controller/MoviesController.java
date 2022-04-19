@@ -41,8 +41,9 @@ public class MoviesController {
 
 	@GetMapping("/public/sortedMovies")
 	public ResponseEntity<Map<String, Object>> getAllMovies(
+			@RequestBody final MovieModel movieModel,
 			@RequestParam(defaultValue = "0") final int page,
-			@RequestParam(defaultValue = "10") final int size, 
+			@RequestParam(defaultValue = "10") final int size,
 			@RequestParam(defaultValue = "id,desc") final String[] sort) {
 
 		var response = new HashMap<String, Object>();
@@ -62,7 +63,7 @@ public class MoviesController {
 
 			final Pageable pagingSort = PageRequest.of(page, size, Sort.by(orders));
 
-			final ResponseEntity<Page<Movie>> moviePageRespEntity = movieService.getAllMovies(pagingSort);
+			final ResponseEntity<Page<Movie>> moviePageRespEntity = movieService.findBy(movieModel, pagingSort);
 			
 			if(moviePageRespEntity.getStatusCode() == HttpStatus.OK) {
 				final var moviePage = moviePageRespEntity.getBody();
@@ -80,6 +81,7 @@ public class MoviesController {
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		

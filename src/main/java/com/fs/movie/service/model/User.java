@@ -41,7 +41,7 @@ public class User implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="USER_ID")
 	@CSVCell(label = "id")
-	private long id;
+	private Long id;
 	
 	@Column(name="FIRST_NAME")
 	@CSVCell(label = "First Name")

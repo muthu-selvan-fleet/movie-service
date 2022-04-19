@@ -42,7 +42,7 @@ public class Genre implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="GENRE_ID")
 	@CSVCell(label = "id")
-	private long id;
+	private Long id;
 	
 	@Column(name="GENRE_VALUE")
 	@NotNull(message = "Genre is mandatory")

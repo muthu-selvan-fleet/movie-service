@@ -2,6 +2,7 @@ package com.fs.movie.service.service;
 
 import java.util.List;
 
+import com.fs.movie.service.model.MovieModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -17,5 +18,6 @@ public interface MovieService {
 	ResponseEntity<List<Movie>> getRecommendedMovies(final long userId);
 	
 	void deleteAllMovies();
-	
+
+	ResponseEntity<Page<Movie>> findBy(final MovieModel movieModel, final Pageable pagingSort);
 }

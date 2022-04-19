@@ -43,7 +43,7 @@ public class Movie implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="MOVIE_ID")
 	@CSVCell(label = "id")
-	private long id;
+	private Long id;
 	
 	@Column(name="MOVIE_NAME")
 	@NotNull(message = "Movie Name is mandatory")
@@ -57,10 +57,10 @@ public class Movie implements Serializable {
 	private Date releaseDate;
 
 	@Column(name="UPVOTE_COUNT")
-	private long upVoteCount;
+	private Long upVoteCount;
 
 	@Column(name="DOWNVOTE_COUNT")
-	private long downVoteCount;
+	private Long downVoteCount;
 
 	@OneToMany(mappedBy = "movie", fetch = FetchType.LAZY,
 			cascade = CascadeType.REFRESH)

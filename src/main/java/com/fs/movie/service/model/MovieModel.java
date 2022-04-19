@@ -33,7 +33,7 @@ public class MovieModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@CSVCell(label = "id")
-	private long id;
+	private Long id;
 	
 	@CSVCell(label = "Movie Name")
 	private String name;
@@ -42,20 +42,22 @@ public class MovieModel implements Serializable {
 	private String releaseDate;
 
 	@CSVCell(label = "Upvotes")
-	private long upVoteCount;
+	private Long upVoteCount;
 
 	@CSVCell(label = "Downvotes")
-	private long downVoteCount;
+	private Long downVoteCount;
 
 	@CSVCell(label = "Genre")
 	@Transient
-	private String genreFromSheet;
+	private String genreFromInput;
 
 	private List<String> genre;
 
 	public Date getDate() {
 		try {
-			return new SimpleDateFormat("dd-MM-yyyy").parse(this.releaseDate);
+			if(this.releaseDate != null && !this.releaseDate.isBlank()) {
+				return new SimpleDateFormat("dd-MM-yyyy").parse(this.releaseDate);
+			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -65,8 +67,8 @@ public class MovieModel implements Serializable {
 	public List<Genre> getGenreInList() {
 		final var result = new ArrayList<Genre>();
 
-		if(!this.genreFromSheet.isBlank()) {
-			final var genereLst = Arrays.asList(this.genreFromSheet.split("@~@"));
+		if(this.genreFromInput != null && !this.genreFromInput.isBlank()) {
+			final var genereLst = Arrays.asList(this.genreFromInput.split("@~@"));
 			genereLst.forEach(eachGenreStr -> {
 				final var localgenre = new Genre();
 				localgenre.setGenre(eachGenreStr);
