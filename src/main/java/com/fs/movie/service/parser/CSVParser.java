@@ -50,7 +50,7 @@ public class CSVParser {
 						if (token.endsWith("\"")) {
 							token = token.substring(0, token.length() - 1);
 						}
-						String head=getFiedName(token,classType);
+						String head= getFieldName(token,classType);
 						header.add(head);
 					}
 					initial = false;
@@ -125,7 +125,7 @@ public class CSVParser {
 		}
 		return true;
 	}
-public static String getFiedName(String label,Class<?> classVal){
+public static String getFieldName(String label, Class<?> classVal){
 		
 		for (Field field : classVal.getDeclaredFields()) {
 		    if (field.isAnnotationPresent(CSVCell.class)) {

@@ -1,12 +1,11 @@
 package com.fs.movie.service.service;
 
 import com.fs.movie.service.constants.Constants;
-import com.fs.movie.service.model.Genre;
-import com.fs.movie.service.model.Movie;
-import com.fs.movie.service.model.MovieModel;
+import com.fs.movie.service.model.*;
 import com.fs.movie.service.parser.CSVParser;
 import com.fs.movie.service.repository.GenreRepository;
 import com.fs.movie.service.repository.MovieRepository;
+import com.fs.movie.service.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
@@ -44,6 +43,9 @@ public class LoadFiles {
 
 	@Autowired
 	private MovieRepository movieRepository;
+
+	@Autowired
+	private RoleRepository roleRepository;
 	
 	@Autowired
 	private Environment env;
@@ -100,6 +102,26 @@ public class LoadFiles {
 			{
 				userService.deleteAllUsers();
 				System.out.println("********************** User Processed ***********");
+			}
+
+			// Process Role
+			{
+				roleRepository.deleteAll();
+				Resource resource = resourceLoader.getResource("classpath:"+"assets/csv/RoleModel.csv");
+				List<RoleModel> roleModels = CSVParser.readCSVFile(RoleModel.class, resource.getFile().getAbsolutePath());
+
+				roleModels.forEach(eachRoleModel -> {
+					final var role = new Role();
+
+					final var eRole = eachRoleModel.getERole();
+
+					if(eRole != null) {
+						role.setName(eRole);
+						roleRepository.save(role);
+					}
+
+				});
+				System.out.println("********************** Role Processed ***********");
 			}
 			
 		} catch (Exception e) {
