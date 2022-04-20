@@ -57,7 +57,7 @@ public class MovieServiceImpl implements MovieService {
 
 	public ResponseEntity<Page<Movie>> findBy(final MovieModel movieModel,final Pageable pagingSort) {
 
-		var movie = new Movie();
+		final var movie = new Movie();
 
 		if(movieModel.getName() != null && !movieModel.getName().isBlank()) {
 			movie.setName(movieModel.getName());
@@ -74,6 +74,9 @@ public class MovieServiceImpl implements MovieService {
 		if(movieModel.getDate() != null) {
 			movie.setReleaseDate(movieModel.getDate());
 		}
+
+		final var genreFromInput = movieModel.getGenreInList();
+
 
 		final var pagedMovies = movieRepository.findAll(Example.of(movie),pagingSort);
 

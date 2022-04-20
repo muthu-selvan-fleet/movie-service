@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
 	public ResponseEntity<User> addUser(final User user) {
 		try {
 			final var newUser = new User(user.getFirstName(),user.getLastName(),
-					user.getEmailId(), user.getPhoneNumber());
+					user.getEmailId(), user.getPassword());
 			userRepository.save(newUser);
 			user.getFavouriteGenre().forEach(eachGenre -> {
 				eachGenre.setUser(newUser);

@@ -4,18 +4,13 @@
 package com.fs.movie.service.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fs.movie.service.parser.CSVCell;
 
 import lombok.Data;
@@ -58,17 +53,28 @@ public class User implements Serializable {
 	@Column(name="PHONE_NUMBER")
 	@CSVCell(label = "Phone Number")
 	private String phoneNumber;
-	
+
+	@Column(name="PASSWORD")
+	@CSVCell(label = "password")
+	@JsonIgnore
+	private String password;
+
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
 			cascade = CascadeType.REFRESH)
 	private List<Genre> favouriteGenre;
-	
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(  name = "user_roles",
+			joinColumns = @JoinColumn(name = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@JsonIgnore
+	private Set<Role> roles = new HashSet<>();
 	
 	public User(String firstName,String lastName,
-			String emailId, String phoneNumber) {
+			String emailId, String password) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.emailId = emailId;
-		this.phoneNumber = phoneNumber;
+		this.password = password;
 	}
 }

@@ -68,7 +68,8 @@ public class MovieModel implements Serializable {
 		final var result = new ArrayList<Genre>();
 
 		if(this.genreFromInput != null && !this.genreFromInput.isBlank()) {
-			final var genereLst = Arrays.asList(this.genreFromInput.split("@~@"));
+			final var delimiter = this.genreFromInput.contains("@~@") ? "@~@" : ",";
+			final var genereLst = Arrays.asList(this.genreFromInput.split(delimiter));
 			genereLst.forEach(eachGenreStr -> {
 				final var localgenre = new Genre();
 				localgenre.setGenre(eachGenreStr);
