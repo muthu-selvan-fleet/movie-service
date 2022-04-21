@@ -37,7 +37,7 @@ public class UserController {
 		return userService.getAllUsers();
 	}
 	
-	@PostMapping("/register")
+	// @PostMapping("/register")
 	public ResponseEntity<User> addUser(@RequestBody final UserModel user) {
 		return userService.addUser(prepareUserObject(user));
 	}

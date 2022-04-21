@@ -51,6 +51,15 @@ public class MovieModel implements Serializable {
 	@Transient
 	private String genreFromInput;
 
+	public MovieModel(String name, String releaseDate, Long upVoteCount, Long downVoteCount, String genreFromInput) {
+		super();
+		this.name = name;
+		this.releaseDate = releaseDate;
+		this.upVoteCount = upVoteCount;
+		this.downVoteCount = downVoteCount;
+		this.genreFromInput = genreFromInput;
+	}
+
 	private List<String> genre;
 
 	public Date getDate() {

@@ -45,7 +45,7 @@ public class Movie implements Serializable {
 	@CSVCell(label = "id")
 	private Long id;
 	
-	@Column(name="MOVIE_NAME")
+	@Column(name="MOVIE_NAME", unique = true)
 	@NotNull(message = "Movie Name is mandatory")
 	@CSVCell(label = "Movie Name")
 	private String name;

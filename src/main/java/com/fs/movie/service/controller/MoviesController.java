@@ -16,8 +16,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
 import com.fs.movie.service.model.Genre;
@@ -32,22 +34,27 @@ public class MoviesController {
 	@Autowired
 	private MovieService movieService;
 	
-	@GetMapping("/public/recommendedMovies/{userId}")
+	@GetMapping("/public/movies/{userId}")
 	public ResponseEntity<List<Movie>> getRecommendedMovies(
 		@NotNull @PathVariable("userId") final long userId) {
 
 		return movieService.getRecommendedMovies(userId);
 	}
 
-	@GetMapping("/public/sortedMovies")
+	@GetMapping("/public/movies")
 	public ResponseEntity<Map<String, Object>> getAllMovies(
-			@RequestBody final MovieModel movieModel,
+			@Nullable @RequestParam final String name,
+			@Nullable @RequestParam final String releaseDate,
+			@Nullable @RequestParam final Long upVoteCount,
+			@Nullable @RequestParam final Long downVoteCount,
+			@Nullable @RequestParam final String genreFromInput,
 			@RequestParam(defaultValue = "0") final int page,
 			@RequestParam(defaultValue = "10") final int size,
 			@RequestParam(defaultValue = "id,desc") final String[] sort) {
 
-		var response = new HashMap<String, Object>();
-		var orders = new ArrayList<Order>();
+		final var movieModel = new MovieModel(name,releaseDate,upVoteCount,downVoteCount,genreFromInput);
+		final var response = new HashMap<String, Object>();
+		final var orders = new ArrayList<Order>();
 
 		try {
 
